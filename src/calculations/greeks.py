@@ -31,42 +31,42 @@ def calculate_delta(P, S, T, r, sigma, option_type):
     else:
         raise ValueError("El tipo de opción debe ser 'call' o 'put'.")
     
-    return round(delta, 4)
+    return round(delta, 5)
 
 
-def calculate_gamma(S, K, T_days, r, sigma):
+def calculate_gamma(P, S, T_days, r, sigma):
     """
     Calcula la Gamma de una opción utilizando el modelo de Black-Scholes.
 
     Parámetros:
-    - S: Precio actual del activo subyacente.
-    - K: Precio de ejercicio de la opción.
+    - P: Precio actual del activo subyacente.
+    - S: Precio de ejercicio de la opción.
     - T_days: Tiempo hasta la expiración en días.
     - r: Tasa de interés libre de riesgo (en decimal).
     - sigma: Volatilidad del activo subyacente (en decimal).
 
     """
-    if T_days <= 0 or sigma <= 0 or S <= 0:
+    if T_days <= 0 or sigma <= 0 or P <= 0:
         raise ValueError("Tiempo a vencimiento, volatilidad y precio del activo deben ser mayores que cero.")
 
     # Convertir días a años
     T = T_days / 365.0  
 
     # Cálculo de d1 (Black-Scholes)
-    d1 = (np.log(S / K) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
+    d1 = (np.log(P / S) + (r + 0.5 * sigma**2) * T) / (sigma * np.sqrt(T))
 
     # Cálculo de Gamma
-    gamma = norm.pdf(d1) / (S * sigma * np.sqrt(T))
+    gamma = norm.pdf(d1) / (P * sigma * np.sqrt(T))
     
-    return gamma
+    return round(gamma, 5)
 
 def calculate_vega(P, S, T_days, r, sigma):
     """
     Calcula la Vega de una opción utilizando el modelo de Black-Scholes.
 
     Parámetros:
-    - S: Precio actual del activo subyacente.
-    - K: Precio de ejercicio de la opción.
+    - P: Precio actual del activo subyacente.
+    - S: Precio de ejercicio de la opción.
     - T_days: Tiempo hasta la expiración en días.
     - r: Tasa de interés libre de riesgo (en decimal).
     - sigma: Volatilidad del activo subyacente (en decimal).
@@ -84,7 +84,7 @@ def calculate_vega(P, S, T_days, r, sigma):
     # Cálculo de Vega
     vega = P * np.sqrt(T) * norm.pdf(d1)
 
-    return vega/100
+    return round((vega/100), 5)
 
 def calculate_theta(P, S, T_days, r, sigma, option_type="call"):
     """
@@ -116,15 +116,14 @@ def calculate_theta(P, S, T_days, r, sigma, option_type="call"):
     else: 
         term2 = -r * S * np.exp(-r * T) * norm.cdf(-d2)
         theta = term1 - term2 
-
-    return theta / 365 
+    return round((theta / 365), 5)  
 
 def calculate_rho(P, S, T_days, r, sigma, option_type):
     """
     Calcula la Rho de una opción usando el modelo de Black-Scholes.
     
-    :param S: Precio actual del subyacente
-    :param K: Precio de ejercicio de la opción
+    :param P: Precio actual del subyacente
+    :param S: Precio de ejercicio de la opción
     :param T_days: Tiempo hasta la expiración en días
     :param r: Tasa libre de riesgo (en decimal, no en porcentaje)
     :param sigma: Volatilidad del subyacente (en decimal, no en porcentaje)
@@ -144,4 +143,4 @@ def calculate_rho(P, S, T_days, r, sigma, option_type):
     else:  # Opción put
         rho = -S * T * np.exp(-r * T) * norm.cdf(-d2)
 
-    return rho / 100  # Ajustamos para que refleje cambio por 1% de tasa de interés
+    return round((rho / 100), 5)    
