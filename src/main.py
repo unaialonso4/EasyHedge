@@ -2,6 +2,7 @@ from data_ingestion.data_provider import *
 from calculations.greeks import *
 from utils.operations import *
 from calculations.volatility import *
+from data_visualisation.option_vs_spot import *
 from calculations.optionPrice import *
 
 if __name__ == "__main__":
@@ -37,8 +38,17 @@ print("PREMIUM AMERICAN: " + str(price))
 
 print("VOLATILIDAD")
 print(implied_volatility(2.48766, P, S, T_days, r, option_type, q))
-"""
+
 price = calculate_option_price(P=150, S=100, T_days=30, r=0.05, sigma=0.233, option_type="put")
 print(price)
 pricec = calculate_option_price(P=50, S=100, T_days=30, r=0.05, sigma=0.233, option_type="call")
 print(pricec)
+
+
+# Ejemplo de uso
+print("Precio con subya a 100: ")
+print(calculate_option_price(P=100, S=100, T_days=30, r=0.05, sigma=0.20, option_type="call"))
+print("Precio con subya a 110: ")
+print(calculate_option_price(110, 100, 30, 0.05, 0.20, "call", 0.1))
+"""
+plot_roi_comparison(100, 100, 30, 0.05, 0.2, "call", 0)
