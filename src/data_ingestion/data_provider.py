@@ -60,7 +60,7 @@ def get_company_location(ticker):
         print(f"Error al obtener la ubicación de la empresa para el ticker {ticker}: {e}")
         return None
 
-
+ 
 def get_risk_free_rate():
     """
     Obtiene la tasa de interés libre de riesgo de EE.UU. utilizando Alpha Vantage 

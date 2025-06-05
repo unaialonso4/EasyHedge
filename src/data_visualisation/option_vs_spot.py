@@ -61,6 +61,7 @@ def plot_roi_comparison(S, K, T_days, r, sigma, option_type, q=0, initial_option
         # ROI para la posición larga en spot
         roi_spot = (prices - S) / S * 100
         spot_label = 'ROI Long Spot'
+        
     else:  # put
         # ROI para la posición corta en spot
         roi_spot = (S - prices) / S * 100
