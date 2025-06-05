@@ -19,5 +19,5 @@ def test_calculate_rho():
     assert calculate_rho(100, 100, 30, 0.05, 0.2, "call") == pytest.approx(0.04233, rel=1e-2)
     assert calculate_rho(100, 100, 30, 0.05, 0.2, "put") == pytest.approx(-0.03952, rel=1e-2)
 
-if __name__ == "__main__":
+if __name__ == "__main__": 
     pytest.main()
